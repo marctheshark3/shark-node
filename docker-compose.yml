@@ -1,1 +1,28 @@
-dmVyc2lvbjogJzMuOCcKCnNlcnZpY2VzOgogIGVyZ28tbm9kZToKICAgIGJ1aWxkOgogICAgICBjb250ZXh0OiAuCiAgICAgIGFyZ3M6CiAgICAgICAgVkVSU0lPTjogJHtFUkdPX1ZFUlNJT046LTUuMC4xNH0KICAgIGNvbnRhaW5lcl9uYW1lOiBzaGFyay1ub2RlCiAgICByZXN0YXJ0OiB1bmxlc3Mtc3RvcHBlZAogICAgcG9ydHM6CiAgICAgIC0gIiR7Tk9ERV9QT1JUOi05MDUzfTo5MDUzIgogICAgICAtICIke0FQSV9QT1JUOi05MDUyfTo5MDUyIgogICAgdm9sdW1lczoKICAgICAgLSBlcmdvLWRhdGE6L29wdC9lcmdvL2RhdGEKICAgICAgLSBlcmdvLXdhbGxldDovb3B0L2VyZ28vd2FsbGV0CiAgICBlbnZpcm9ubWVudDoKICAgICAgLSBKQVZBX09QVFM9LVhteCR7SkFWQV9IRUFQOi0yZ30KICAgIG5ldHdvcmtzOgogICAgICAtIGVyZ28tbmV0d29yawoKdm9sdW1lczoKICBlcmdvLWRhdGE6CiAgZXJnby13YWxsZXQ6CgpuZXR3b3JrczoKICBlcmdvLW5ldHdvcms6CiAgICBkcml2ZXI6IGJyaWRnZQ==
+version: '3.8'
+
+services:
+  ergo-node:
+    build:
+      context: .
+      args:
+        VERSION: ${ERGO_VERSION:-5.0.14}
+    container_name: shark-node
+    restart: unless-stopped
+    ports:
+      - "${NODE_PORT:-9053}:9053"
+      - "${API_PORT:-9052}:9052"
+    volumes:
+      - ergo-data:/opt/ergo/data
+      - ergo-wallet:/opt/ergo/wallet
+    environment:
+      - JAVA_OPTS=-Xmx${JAVA_HEAP:-2g}
+    networks:
+      - ergo-network
+
+volumes:
+  ergo-data:
+  ergo-wallet:
+
+networks:
+  ergo-network:
+    driver: bridge
