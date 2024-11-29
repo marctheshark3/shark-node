@@ -12,6 +12,7 @@ services:
       - "${NODE_PORT:-9053}:9053"
       - "${API_PORT:-9052}:9052"
     volumes:
+      - ./config:/opt/ergo/config
       - ergo-data:/opt/ergo/data
     environment:
       - JAVA_OPTS=-Xmx${JAVA_HEAP:-2g}
