@@ -7,10 +7,12 @@ RUN apt-get update && \
     apt-get install -y curl && \
     rm -rf /var/lib/apt/lists/*
 
+# Download Ergo jar
 RUN curl -L https://github.com/ergoplatform/ergo/releases/download/v${VERSION}/ergo-${VERSION}.jar -o ergo.jar
 
 COPY config/ergo.conf /opt/ergo/ergo.conf
 
-EXPOSE 9052 9053
+EXPOSE 9053 9052
 
-CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--nipopow", "--config", "ergo.conf"]
+# Simplified command for light client
+CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--config", "ergo.conf"]
