@@ -10,9 +10,12 @@ RUN apt-get update && \
 # Download Ergo jar
 RUN curl -L https://github.com/ergoplatform/ergo/releases/download/v${VERSION}/ergo-${VERSION}.jar -o ergo.jar
 
+# Create necessary directories
+RUN mkdir -p /opt/ergo/data
+
 COPY config/ergo.conf /opt/ergo/ergo.conf
 
 EXPOSE 9053 9052
 
-# Removed --nipopow flag since it's configured in ergo.conf
+# Run node with config file
 CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--config", "ergo.conf"]
