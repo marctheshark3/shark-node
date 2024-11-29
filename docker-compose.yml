@@ -16,6 +16,11 @@ services:
       - ergo-wallet:/opt/ergo/wallet
     environment:
       - JAVA_OPTS=-Xmx${JAVA_HEAP:-2g}
+      - ENABLE_METRICS=true
+    labels:
+      - "prometheus.io/scrape=true"
+      - "prometheus.io/port=9052"
+      - "prometheus.io/path=/metrics"
     networks:
       - ergo-network
 
