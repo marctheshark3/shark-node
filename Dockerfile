@@ -10,12 +10,16 @@ RUN apt-get update && \
 # Download Ergo jar
 RUN curl -L https://github.com/ergoplatform/ergo/releases/download/v${VERSION}/ergo-${VERSION}.jar -o ergo.jar
 
-# Create necessary directories
+# Create directories and copy config
 RUN mkdir -p /opt/ergo/data
+COPY config /opt/ergo/config
 
-COPY config/ergo.conf /opt/ergo/ergo.conf
+WORKDIR /opt/ergo
+
+# Debug: List contents to verify config file
+RUN ls -la /opt/ergo/config
 
 EXPOSE 9053 9052
 
-# Run node with config file
-CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--config", "ergo.conf"]
+# Explicitly point to config file location
+CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--config", "/opt/ergo/config/ergo.conf"]
