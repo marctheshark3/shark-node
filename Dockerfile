@@ -14,5 +14,5 @@ COPY config/ergo.conf /opt/ergo/ergo.conf
 
 EXPOSE 9053 9052
 
-# Simplified command for light client
+# Removed --nipopow flag since it's configured in ergo.conf
 CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--config", "ergo.conf"]
