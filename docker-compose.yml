@@ -20,6 +20,7 @@ services:
 
 volumes:
   ergo-data:
+    driver: local
 
 networks:
   ergo-network:

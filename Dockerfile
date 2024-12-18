@@ -10,9 +10,13 @@ RUN apt-get update && \
 # Download Ergo jar
 RUN curl -L https://github.com/ergoplatform/ergo/releases/download/v${VERSION}/ergo-${VERSION}.jar -o ergo.jar
 
-COPY config/ergo.conf /opt/ergo/ergo.conf
+# Create all necessary directories
+RUN mkdir -p /opt/ergo/data && \
+    mkdir -p /opt/ergo/data/wallet/keystore
+
+COPY config/ergo.conf /opt/ergo/config/ergo.conf
 
 EXPOSE 9053 9052
 
-# Removed --nipopow flag since it's configured in ergo.conf
-CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--config", "ergo.conf"]
+# Start the node
+CMD ["java", "-Xmx2g", "-jar", "ergo.jar", "--config", "/opt/ergo/config/ergo.conf"]
